@@ -102,9 +102,23 @@ function createBlock() {
 	console.log(block);
 	block.forEach(function(tr, i) {
 		tr.forEach(function(td, j) {
+			// 블록 생성할때 이미 차있으면 게임오버
 			tetrisData[i][j + 3] = td;
 		})
 	});
+	screenDrawing();
+}
+
+// 블록 내리기
+function blockDown() {
+	for (var i = tetrisData.length - 1; i >= 0; i--) {
+		tetrisData[i].forEach(function(td, j) {
+			if (td > 0 && td < 10) {
+				tetrisData[i + 1][j] = td;
+				tetrisData[i][j] = 0;
+			}
+		})
+	}
 	screenDrawing();
 }
 
@@ -134,3 +148,5 @@ window.addEventListener('keyup', function(e) {
 
 createFrame();
 createBlock();
+
+setInterval(blockDown, 1000);
