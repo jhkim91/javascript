@@ -29,6 +29,7 @@ var blockArr = [
 	]],
 ];
 var blockDict = {
+	0: ['white', false, []],
 	1: ['red', true, [
 		[1,1],
 		[1,1]
@@ -86,13 +87,26 @@ function createFrame() {
 	tetris.appendChild(fragment);
 }
 
-function createBlock() {
-	var block = blockArr[Math.floor(Math.random() * 7)];
-	console.log(block);
-}
+// 화면 그리기
+function screenDrawing() {
+	tetrisData.forEach(function(tr, i) {
+		tr.forEach(function(td, j) {
+			tetris.children[i].children[j].className = blockDict[td][0];
+		})
+	})
+};
 
-createFrame();
-createBlock();
+// 블록 생성기
+function createBlock() {
+	var block = blockArr[Math.floor(Math.random() * 7)][2];
+	console.log(block);
+	block.forEach(function(tr, i) {
+		tr.forEach(function(td, j) {
+			tetrisData[i][j + 3] = td;
+		})
+	});
+	screenDrawing();
+}
 
 window.addEventListener('keydown', function(e) {
 	switch (e.code) {
@@ -106,6 +120,7 @@ window.addEventListener('keydown', function(e) {
 			break;
 	}
 });
+
 window.addEventListener('keyup', function(e) {
 	switch (e.code) {
 		case 'Space':
@@ -116,3 +131,6 @@ window.addEventListener('keyup', function(e) {
 			break;
 	}
 });
+
+createFrame();
+createBlock();
